@@ -21,11 +21,12 @@ body {
   background: radial-gradient(circle at top, #1a1f2b 0%, #0c0f14 60%);
   color: var(--text-soft);
 }
-header { text-align:center; padding:90px 20px 60px; background: linear-gradient(to bottom, rgba(163,0,0,0.3), transparent); }
+header { text-align:center; padding:90px 20px 60px; background: linear-gradient(to bottom, rgba(163,0,0,0.3), transparent);}
 header h1 { font-family:'Cinzel', serif; font-size:58px; color:white; margin:0; }
 header p { margin-top:10px; font-size:18px; color:var(--fel-green); }
+
 nav { text-align:center; padding:15px; }
-nav a, nav button { color:white; margin:0 12px; text-decoration:none; font-weight:600; opacity:0.8; background:none; border:none; cursor:pointer; }
+nav a, nav button { color:white; margin:0 12px; text-decoration:none; font-weight:600; background:none; border:none; cursor:pointer; opacity:0.8; }
 nav a:hover, nav button:hover { opacity:1; color:var(--fel-green); }
 
 section { max-width:1050px; margin:auto; padding:50px 20px; }
@@ -58,8 +59,8 @@ h2 { font-family:'Cinzel', serif; font-size:30px; border-left:4px solid var(--ho
   animation: fillBar 1.5s ease forwards;
 }
 @keyframes fillBar {
-  from { width:0; }
-  to { width:var(--fill-percent); }
+  from { width: 0%; }
+  to { width: var(--fill-percent); }
 }
 
 .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:15px; }
@@ -92,7 +93,7 @@ footer { text-align:center; padding:30px; font-size:14px; opacity:0.6; }
 
 <header>
   <h1>Nordens Ark</h1>
-  <p>Avslappnad Horde‑guild – vi spelar för att ha kul!</p>
+  <p id="aboutText">Avslappnad Horde‑guild – vi spelar för att ha kul!</p>
 </header>
 
 <nav>
@@ -106,26 +107,24 @@ footer { text-align:center; padding:30px; font-size:14px; opacity:0.6; }
 <section id="about">
   <h2>Om Oss</h2>
   <div class="card">
-    <p>Nordens Ark är en casual Horde‑guild där gemenskap och spelglädje är viktigast.</p>
+    <p id="aboutContent"></p>
   </div>
 </section>
 
 <section id="progress">
   <h2>Raid Progress</h2>
-  <div class="card" id="progressContainer"><p>Just nu ingen data – ändra i admin!</p></div>
+  <div class="card" id="progressContainer"><p>Uppdatera progress i admin!</p></div>
 </section>
 
 <section id="gallery">
   <h2>Raid Galleri</h2>
   <div class="card">
 
-    <!-- Upload -->
     <div style="margin-bottom:15px;">
       <input type="file" id="galleryUpload" accept="image/*">
       <button onclick="uploadImage()">Ladda upp bild</button>
     </div>
 
-    <!-- Gallery -->
     <div class="gallery" id="galleryContainer"></div>
   </div>
 </section>
@@ -147,116 +146,159 @@ footer { text-align:center; padding:30px; font-size:14px; opacity:0.6; }
   <div class="modal-content">
     <h3>Admin Panel</h3>
 
-    <label>Lösenord:</label>
+    <label>Admin‑lösenord:</label>
     <input type="password" id="adminPassInput" placeholder="Admin‑lösenord">
 
     <label>Discord‑länk:</label>
-    <input type="text" id="adminDiscordURL" placeholder="Skriv Discord‑invite här">
+    <input type="text" id="adminDiscordURL" placeholder="https://discord.gg/...">
+
+    <label>Om Oss‑text:</label>
+    <textarea id="adminAboutText" rows="3"></textarea>
 
     <h4>Raid Progress</h4>
     <div id="adminProgressInputs"></div>
 
-    <button onclick="saveAdminData()">Spara</button>
+    <button onclick="saveAdminData()">Spara allt</button>
     <button onclick="hideAdmin()">Avsluta</button>
   </div>
 </div>
 
 <script>
-// --- LocalStorage data ---
-let progressData = JSON.parse(localStorage.getItem("guildProgress")) || {
+// --- localStorage helpers ---
+// Läs JSON från localStorage, eller fallback
+function loadJSON(key, fallback) {
+  const raw = localStorage.getItem(key);
+  return raw ? JSON.parse(raw) : fallback;
+}
+
+// --- Data i localStorage ---
+let progressData = loadJSON("guildProgress", {
   "Karazhan": { kills:0, total:0 },
   "Gruul": { kills:0, total:0 },
   "SSC": { kills:0, total:0 },
   "TK": { kills:0, total:0 }
-};
-let galleryImages = JSON.parse(localStorage.getItem("galleryImages")) || [];
+});
+let galleryImages = loadJSON("galleryImages", []);
 let discordLink = localStorage.getItem("discordLink") || "";
+let aboutText = localStorage.getItem("aboutText") || "";
 
-// --- Render functions ---
+// --- Update displays ---
 function renderProgress() {
   let html = "";
-  for (let raid in progressData) {
-    const {kills, total} = progressData[raid];
-    const pct = total>0 ? Math.round((kills/total)*100) : 0;
+  for (let r in progressData) {
+    const {kills, total} = progressData[r];
+    const pct = total > 0 ? Math.round((kills/total)*100): 0;
     html += `
-      <div><b>${raid}</b></div>
+      <div><b>${r}</b></div>
       <div class="progress-bar">
         <div class="progress-fill" style="--fill-percent:${pct}%;">${kills}/${total}</div>
       </div>`;
   }
   document.getElementById("progressContainer").innerHTML = html;
 }
-function renderGallery() {
+
+function renderGallery(isAdmin=false) {
   let html = "";
-  galleryImages.forEach((imgData,index) => {
+  galleryImages.forEach((imgData, idx) => {
     html += `
       <div style="position:relative;">
         <img src="${imgData}" style="width:100%; border-radius:6px;">
-        <button onclick="removeImage(${index})" 
-                style="position:absolute; top:-6px; right:-6px; background:red; color:white; border:none; border-radius:50%; width:24px; height:24px; cursor:pointer;">
-          ✕
-        </button>
+        ${(isAdmin ? `<button onclick="removeImage(${idx})"
+          style="position:absolute; top:-6px; right:-6px; background:red; color:white; border:none; border-radius:50%; width:24px; height:24px; cursor:pointer;">✕</button>` : ``)}
       </div>`;
   });
   document.getElementById("galleryContainer").innerHTML = html;
 }
-function updateDiscordButton() {
-  if(discordLink) document.getElementById("discordBtn").onclick = ()=>window.open(discordLink,"_blank");
+
+function updateDiscordBtn() {
+  if(discordLink) {
+    document.getElementById("discordBtn").onclick = ()=>window.open(discordLink,"_blank");
+  }
 }
+
+function renderAbout() {
+  document.getElementById("aboutContent").textContent = aboutText;
+}
+
+// --- Run initial renders ---
 renderProgress();
 renderGallery();
-updateDiscordButton();
+updateDiscordBtn();
+renderAbout();
 
-// --- Upload/Remove images ---
-function uploadImage() {
-  const file = document.getElementById("galleryUpload").files[0];
-  if(!file) return alert("Välj en bild först!");
-  const reader=new FileReader();
-  reader.onload=()=>{
-    galleryImages.push(reader.result);
+// --- Gallery upload & delete ---
+function uploadImage(){
+  const f=document.getElementById("galleryUpload").files[0];
+  if(!f) return alert("Välj en bild!");
+  const r=new FileReader();
+  r.onload=()=> {
+    galleryImages.push(r.result); // Bilden i base64
     localStorage.setItem("galleryImages",JSON.stringify(galleryImages));
-    renderGallery();
+    renderGallery(adminLoggedIn);
   }
-  reader.readAsDataURL(file);
+  r.readAsDataURL(f);
 }
-function removeImage(i) {
-  if(confirm("Ta bort bilden?")) {
+
+function removeImage(i){
+  if(confirm("Ta bort bilden?")){
     galleryImages.splice(i,1);
     localStorage.setItem("galleryImages",JSON.stringify(galleryImages));
-    renderGallery();
+    renderGallery(adminLoggedIn);
   }
 }
 
 // --- Admin ---
-const ADMIN_PASSWORD="letmein"; // ändra själv
-function showAdmin() { 
-  document.getElementById("adminModal").style.display="flex"; 
+let adminLoggedIn = false;
+const ADMIN_PASSWORD = "letmein"; // ändra detta!
+
+function showAdmin(){
+  document.getElementById("adminModal").style.display="flex";
   document.getElementById("adminDiscordURL").value=discordLink;
+  document.getElementById("adminAboutText").value=aboutText;
   const inputs=document.getElementById("adminProgressInputs");
   inputs.innerHTML="";
-  for(let raid in progressData) {
+  for(let r in progressData) {
     inputs.innerHTML+=`
-      <div>${raid}: 
-        <input type="number" id="input_${raid}_kills" value="${progressData[raid].kills}" placeholder="Kills">
-        /
-        <input type="number" id="input_${raid}_total" value="${progressData[raid].total}" placeholder="Total">
+      <div>${r}:
+      <input type="number" id="input_${r}_kills" value="${progressData[r].kills}" placeholder="kills">
+      /
+      <input type="number" id="input_${r}_total" value="${progressData[r].total}" placeholder="total">
       </div>`;
   }
 }
-function hideAdmin(){ document.getElementById("adminModal").style.display="none"; }
-function saveAdminData() {
+
+function hideAdmin(){
+  document.getElementById("adminModal").style.display="none";
+}
+
+function saveAdminData(){
   const pass=document.getElementById("adminPassInput").value;
-  if(pass!==ADMIN_PASSWORD) { alert("Fel lösenord!"); return; }
+  if(pass!==ADMIN_PASSWORD) return alert("Fel lösenord!");
+  // Markera admin som inloggad
+  adminLoggedIn=true;
+  
+  // Discord
   discordLink=document.getElementById("adminDiscordURL").value;
   localStorage.setItem("discordLink",discordLink);
-  updateDiscordButton();
-  for(let raid in progressData) {
-    const k=parseInt(document.getElementById(`input_${raid}_kills`).value)||0;
-    const t=parseInt(document.getElementById(`input_${raid}_total`).value)||0;
-    progressData[raid]={kills:k,total:t};
+  updateDiscordBtn();
+
+  // Om oss text
+  aboutText=document.getElementById("adminAboutText").value;
+  localStorage.setItem("aboutText",aboutText);
+  renderAbout();
+
+  // Progress
+  for(let r in progressData){
+    const k=parseInt(document.getElementById(`input_${r}_kills`).value)||0;
+    const t=parseInt(document.getElementById(`input_${r}_total`).value)||0;
+    progressData[r]={kills:k,total:t};
   }
   localStorage.setItem("guildProgress",JSON.stringify(progressData));
   renderProgress();
+
+  // Update gallery with admin delete buttons
+  renderGallery(adminLoggedIn);
+
   hideAdmin();
 }
 </script>
