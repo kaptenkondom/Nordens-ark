@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nordens Ark – Horde Casual Guild</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0a0a0a;
+    color: #e6e6e6;
+}
+
+header {
+    background: linear-gradient(to right, #3a0000, #000000);
+    padding: 60px 20px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 56px;
+    margin: 0;
+    color: #cc0000;
+    text-shadow: 0 0 15px #00ff88;
+}
+
+nav {
+    background: #1a0000;
+    text-align: center;
+    padding: 15px;
+}
+
+nav a {
+    color: #ff4444;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover { color: white; }
+
+section {
+    padding: 50px 20px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+h2 {
+    color: #ff4444;
+    border-bottom: 2px solid #330000;
+    padding-bottom: 10px;
+}
+
+.card {
+    background: rgba(20,0,0,0.9);
+    padding: 25px;
+    margin: 20px 0;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,255,136,0.15);
+}
+
+/* Progress */
+.progress-bar {
+    background: #330000;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.progress-fill {
+    height: 22px;
+    background: linear-gradient(to right, #ff0000, #00ff88);
+    text-align: right;
+    padding-right: 10px;
+    font-size: 12px;
+    line-height: 22px;
+}
+
+/* Gallery */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.gallery img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,255,136,0.2);
+}
+
+/* Recruitment icons */
+.class-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    text-align: center;
+}
+
+.class-grid img {
+    width: 50px;
+    display: block;
+    margin: auto;
+}
+
+/* Admin */
+.admin-panel { display: none; margin-top: 20px; }
+input[type=number], input[type=password] {
+    padding: 5px;
+    margin: 5px;
+}
+button {
+    background: #cc0000;
+    border: none;
+    padding: 8px 15px;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+button:hover { background: #990000; }
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #1a0000;
+    color: #777;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Nordens Ark</h1>
+<p>Horde Casual Pappa Guild – För Horden 🔥</p>
+</header>
+
+<nav>
+<a href="#progress">Progress</a>
+<a href="#logs">Logs</a>
+<a href="#gallery">Galleri</a>
+<a href="#recruitment">Rekrytering</a>
+<a href="#admin">Admin</a>
+</nav>
+
+<section id="progress">
+<h2>Raid Progress</h2>
+<div class="card" id="progressContainer"></div>
+</section>
+
+<section id="logs">
+<h2>Warcraft Logs</h2>
+<div class="card">
+<p>Våra senaste logs:</p>
+
+<!-- BYT UT LÄNKEN MED ER GUILD-LÄNK -->
+<iframe 
+src="https://www.warcraftlogs.com/guild/id/REPLACE_WITH_YOUR_GUILD_ID"
+width="100%" 
+height="500" 
+style="border:none;">
+</iframe>
+
+</div>
+</section>
+
+<section id="gallery">
+<h2>Raid Galleri</h2>
+<div class="card">
+<div class="gallery">
+<img src="screenshots/raid1.jpg" alt="">
+<img src="screenshots/raid2.jpg" alt="">
+<img src="screenshots/raid3.jpg" alt="">
+</div>
+<p>Lägg era screenshots i en mapp som heter <b>screenshots</b>.</p>
+</div>
+</section>
+
+<section id="recruitment">
+<h2>Rekrytering</h2>
+<div class="card">
+<div class="class-grid">
+<div>
+<img src="https://wow.zamimg.com/images/wow/icons/medium/classicon_shaman.jpg">
+Resto Shaman
+</div>
+<div>
+<img src="https://wow.zamimg.com/images/wow/icons/medium/classicon_priest.jpg">
+Holy / Disc Priest
+</div>
+<div>
+<img src="https://wow.zamimg.com/images/wow/icons/medium/classicon_warlock.jpg">
+Warlock
+</div>
+</div>
+</div>
+</section>
+
+<section id="admin">
+<h2>Admin</h2>
+<div class="card">
+
+<input type="password" id="adminPass" placeholder="Lösenord">
+<button onclick="unlockAdmin()">Logga in</button>
+
+<div class="admin-panel" id="adminPanel">
+<div id="adminInputs"></div>
+<button onclick="saveProgress()">Spara Progress</button>
+</div>
+
+</div>
+</section>
+
+<footer>
+© 2026 Nordens Ark – Horde Casual Guild
+</footer>
+
+<script>
+const PASSWORD = "forhorden"; // ÄNDRA DETTA!
+
+const raids = {
+    "Karazhan": { kills: 11, total: 11 },
+    "Gruul": { kills: 2, total: 2 },
+    "Magtheridon": { kills: 1, total: 1 },
+    "SSC": { kills: 4, total: 6 },
+    "TK": { kills: 1, total: 4 }
+};
+
+function loadProgress() {
+    const saved = localStorage.getItem("guildProgress");
+    if (saved) Object.assign(raids, JSON.parse(saved));
+}
+
+function renderProgress() {
+    const container = document.getElementById("progressContainer");
+    container.innerHTML = "";
+    for (let raid in raids) {
+        let percent = (raids[raid].kills / raids[raid].total) * 100;
+        container.innerHTML += `
+            <h3>${raid}</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width:${percent}%;">
+                    ${raids[raid].kills}/${raids[raid].total}
+                </div>
+            </div>
+        `;
+    }
+}
+
+function unlockAdmin() {
+    const input = document.getElementById("adminPass").value;
+    if (input === PASSWORD) {
+        document.getElementById("adminPanel").style.display = "block";
+        renderAdmin();
+    } else {
+        alert("Fel lösenord!");
+    }
+}
+
+function renderAdmin() {
+    const inputs = document.getElementById("adminInputs");
+    inputs.innerHTML = "";
+    for (let raid in raids) {
+        inputs.innerHTML += `
+            <div>${raid}
+            <input type="number" min="0" max="${raids[raid].total}" 
+            value="${raids[raid].kills}" id="input-${raid}">
+            / ${raids[raid].total}</div>
+        `;
+    }
+}
+
+function saveProgress() {
+    for (let raid in raids) {
+        raids[raid].kills = parseInt(document.getElementById(`input-${raid}`).value);
+    }
+    localStorage.setItem("guildProgress", JSON.stringify(raids));
+    renderProgress();
+    alert("Progress uppdaterad! 🔥");
+}
+
+loadProgress();
+renderProgress();
+</script>
+
+</body>
+</html>
