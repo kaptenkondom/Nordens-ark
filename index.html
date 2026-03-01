@@ -5,127 +5,155 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nordens Ark – Horde Casual Guild</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
+:root {
+  --bg-dark: #0c0f14;
+  --card-bg: #141922;
+  --horde-red: #a30000;
+  --fel-green: #00ff9d;
+  --text-soft: #cfd6e4;
+}
+
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0a0a0a;
-    color: #e6e6e6;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at top, #1a1f2b 0%, #0c0f14 60%);
+  color: var(--text-soft);
 }
 
 header {
-    background: linear-gradient(to right, #3a0000, #000000);
-    padding: 60px 20px;
-    text-align: center;
+  text-align: center;
+  padding: 100px 20px 80px 20px;
+  background: linear-gradient(to bottom, rgba(163,0,0,0.3), transparent);
 }
 
 header h1 {
-    font-size: 56px;
-    margin: 0;
-    color: #cc0000;
-    text-shadow: 0 0 15px #00ff88;
+  font-family: 'Cinzel', serif;
+  font-size: 64px;
+  margin: 0;
+  color: white;
+  letter-spacing: 2px;
+}
+
+header p {
+  margin-top: 15px;
+  font-size: 20px;
+  color: var(--fel-green);
 }
 
 nav {
-    background: #1a0000;
-    text-align: center;
-    padding: 15px;
+  text-align: center;
+  padding: 20px;
 }
 
 nav a {
-    color: #ff4444;
-    margin: 0 15px;
-    text-decoration: none;
-    font-weight: bold;
+  color: white;
+  margin: 0 20px;
+  text-decoration: none;
+  font-weight: 600;
+  opacity: 0.8;
+  transition: 0.3s;
 }
 
-nav a:hover { color: white; }
+nav a:hover {
+  opacity: 1;
+  color: var(--fel-green);
+}
 
 section {
-    padding: 50px 20px;
-    max-width: 1100px;
-    margin: auto;
+  max-width: 1100px;
+  margin: auto;
+  padding: 60px 20px;
 }
 
 h2 {
-    color: #ff4444;
-    border-bottom: 2px solid #330000;
-    padding-bottom: 10px;
+  font-family: 'Cinzel', serif;
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: white;
+  border-left: 4px solid var(--horde-red);
+  padding-left: 15px;
 }
 
 .card {
-    background: rgba(20,0,0,0.9);
-    padding: 25px;
-    margin: 20px 0;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0,255,136,0.15);
+  background: var(--card-bg);
+  padding: 35px;
+  border-radius: 12px;
+  box-shadow: 0 0 40px rgba(0,0,0,0.4);
+  line-height: 1.7;
 }
 
-/* Progress */
+.card p {
+  font-size: 17px;
+}
+
+/* Progress bars */
+
+.progress-item {
+  margin-bottom: 25px;
+}
+
+.progress-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
 .progress-bar {
-    background: #330000;
-    border-radius: 20px;
-    overflow: hidden;
-    margin: 10px 0;
+  background: #1f2633;
+  border-radius: 30px;
+  overflow: hidden;
+  height: 22px;
 }
 
 .progress-fill {
-    height: 22px;
-    background: linear-gradient(to right, #ff0000, #00ff88);
-    text-align: right;
-    padding-right: 10px;
-    font-size: 12px;
-    line-height: 22px;
+  height: 100%;
+  background: linear-gradient(to right, var(--horde-red), var(--fel-green));
+  text-align: right;
+  padding-right: 10px;
+  font-size: 12px;
+  line-height: 22px;
+  font-weight: bold;
 }
 
 /* Gallery */
+
 .gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
 }
 
 .gallery img {
-    width: 100%;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0,255,136,0.2);
+  width: 100%;
+  border-radius: 10px;
+  transition: 0.3s;
 }
 
-/* Recruitment icons */
+.gallery img:hover {
+  transform: scale(1.03);
+}
+
+/* Recruitment */
+
 .class-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 15px;
-    text-align: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 25px;
+  text-align: center;
 }
 
 .class-grid img {
-    width: 50px;
-    display: block;
-    margin: auto;
+  width: 50px;
+  margin-bottom: 8px;
 }
-
-/* Admin */
-.admin-panel { display: none; margin-top: 20px; }
-input[type=number], input[type=password] {
-    padding: 5px;
-    margin: 5px;
-}
-button {
-    background: #cc0000;
-    border: none;
-    padding: 8px 15px;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-}
-button:hover { background: #990000; }
 
 footer {
-    text-align: center;
-    padding: 20px;
-    background: #1a0000;
-    color: #777;
+  text-align: center;
+  padding: 40px;
+  opacity: 0.6;
+  font-size: 14px;
 }
 </style>
 </head>
@@ -133,35 +161,86 @@ footer {
 <body>
 
 <header>
-<h1>Nordens Ark</h1>
-<p>Horde Casual Pappa Guild – För Horden 🔥</p>
+  <h1>Nordens Ark</h1>
+  <p>Horde Casual Guild – Spelar för att det är roligt</p>
 </header>
 
 <nav>
-<a href="#progress">Progress</a>
-<a href="#logs">Logs</a>
-<a href="#gallery">Galleri</a>
-<a href="#recruitment">Rekrytering</a>
-<a href="#admin">Admin</a>
+  <a href="#about">Om Oss</a>
+  <a href="#progress">Progress</a>
+  <a href="#gallery">Galleri</a>
+  <a href="#recruitment">Rekrytering</a>
 </nav>
+
+<section id="about">
+<h2>Om Oss</h2>
+<div class="card">
+
+<p>
+Nordens Ark är en casual Horde-guild för oss som spelar World of Warcraft
+för att det är roligt – inte för att det är ett jobb.
+</p>
+
+<p>
+Vi är spelare med familj, jobb och verkligt liv. Många av oss är pappor,
+vissa är veteraner från original-TBC, andra är bara här för gemenskapen.
+Gemensamt för oss är att vi gillar att spela tillsammans, skratta åt wipes
+och ta progression i vår egen takt.
+</p>
+
+<p>
+Vi jagar inte världsrankningar.  
+Vi jagar bra kvällar.
+</p>
+
+<p>
+Hos oss är det helt okej att:
+<br>– AFK:a för nattning  
+<br>– Spela off-meta  
+<br>– Inte min-maxa sönder livet  
+<br>– Ha kul
+</p>
+
+<p>
+Vi tror att WoW är som bäst när man spelar med människor man trivs med.
+Progress är kul. Loot är kul.  
+Men det är gemenskapen som gör det värt att logga in.
+</p>
+
+</div>
+</section>
 
 <section id="progress">
 <h2>Raid Progress</h2>
-<div class="card" id="progressContainer"></div>
-</section>
-
-<section id="logs">
-<h2>Warcraft Logs</h2>
 <div class="card">
-<p>Våra senaste logs:</p>
 
-<!-- BYT UT LÄNKEN MED ER GUILD-LÄNK -->
-<iframe 
-src="https://www.warcraftlogs.com/guild/id/REPLACE_WITH_YOUR_GUILD_ID"
-width="100%" 
-height="500" 
-style="border:none;">
-</iframe>
+<div class="progress-item">
+  <div class="progress-title">Karazhan</div>
+  <div class="progress-bar">
+    <div class="progress-fill" style="width:100%;">11/11</div>
+  </div>
+</div>
+
+<div class="progress-item">
+  <div class="progress-title">Gruul's Lair</div>
+  <div class="progress-bar">
+    <div class="progress-fill" style="width:100%;">2/2</div>
+  </div>
+</div>
+
+<div class="progress-item">
+  <div class="progress-title">Serpentshrine Cavern</div>
+  <div class="progress-bar">
+    <div class="progress-fill" style="width:66%;">4/6</div>
+  </div>
+</div>
+
+<div class="progress-item">
+  <div class="progress-title">Tempest Keep</div>
+  <div class="progress-bar">
+    <div class="progress-fill" style="width:25%;">1/4</div>
+  </div>
+</div>
 
 </div>
 </section>
@@ -170,120 +249,45 @@ style="border:none;">
 <h2>Raid Galleri</h2>
 <div class="card">
 <div class="gallery">
-<img src="screenshots/raid1.jpg" alt="">
-<img src="screenshots/raid2.jpg" alt="">
-<img src="screenshots/raid3.jpg" alt="">
+  <img src="screenshots/raid1.jpg">
+  <img src="screenshots/raid2.jpg">
+  <img src="screenshots/raid3.jpg">
 </div>
-<p>Lägg era screenshots i en mapp som heter <b>screenshots</b>.</p>
 </div>
 </section>
 
 <section id="recruitment">
 <h2>Rekrytering</h2>
 <div class="card">
+
+<p>Vi söker just nu spelare som delar vår inställning:</p>
+
 <div class="class-grid">
-<div>
-<img src="https://wow.zamimg.com/images/wow/icons/medium/classicon_shaman.jpg">
-Resto Shaman
+  <div>
+    <img src="https://wow.zamimg.com/images/wow/icons/medium/classicon_shaman.jpg">
+    Resto Shaman
+  </div>
+  <div>
+    <img src="https://wow.zamimg.com/images/wow/icons/medium/classicon_priest.jpg">
+    Holy / Disc Priest
+  </div>
+  <div>
+    <img src="https://wow.zamimg.com/images/wow/icons/medium/classicon_warlock.jpg">
+    Warlock
+  </div>
 </div>
-<div>
-<img src="https://wow.zamimg.com/images/wow/icons/medium/classicon_priest.jpg">
-Holy / Disc Priest
-</div>
-<div>
-<img src="https://wow.zamimg.com/images/wow/icons/medium/classicon_warlock.jpg">
-Warlock
-</div>
-</div>
-</div>
-</section>
 
-<section id="admin">
-<h2>Admin</h2>
-<div class="card">
-
-<input type="password" id="adminPass" placeholder="Lösenord">
-<button onclick="unlockAdmin()">Logga in</button>
-
-<div class="admin-panel" id="adminPanel">
-<div id="adminInputs"></div>
-<button onclick="saveProgress()">Spara Progress</button>
-</div>
+<p style="margin-top:30px;">
+Är du Horde, chill och gillar att spela för att det är kul?  
+Då kommer du passa in hos oss.
+</p>
 
 </div>
 </section>
 
 <footer>
-© 2026 Nordens Ark – Horde Casual Guild
+© 2026 Nordens Ark – För Horden
 </footer>
-
-<script>
-const PASSWORD = "forhorden"; // ÄNDRA DETTA!
-
-const raids = {
-    "Karazhan": { kills: 11, total: 11 },
-    "Gruul": { kills: 2, total: 2 },
-    "Magtheridon": { kills: 1, total: 1 },
-    "SSC": { kills: 4, total: 6 },
-    "TK": { kills: 1, total: 4 }
-};
-
-function loadProgress() {
-    const saved = localStorage.getItem("guildProgress");
-    if (saved) Object.assign(raids, JSON.parse(saved));
-}
-
-function renderProgress() {
-    const container = document.getElementById("progressContainer");
-    container.innerHTML = "";
-    for (let raid in raids) {
-        let percent = (raids[raid].kills / raids[raid].total) * 100;
-        container.innerHTML += `
-            <h3>${raid}</h3>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width:${percent}%;">
-                    ${raids[raid].kills}/${raids[raid].total}
-                </div>
-            </div>
-        `;
-    }
-}
-
-function unlockAdmin() {
-    const input = document.getElementById("adminPass").value;
-    if (input === PASSWORD) {
-        document.getElementById("adminPanel").style.display = "block";
-        renderAdmin();
-    } else {
-        alert("Fel lösenord!");
-    }
-}
-
-function renderAdmin() {
-    const inputs = document.getElementById("adminInputs");
-    inputs.innerHTML = "";
-    for (let raid in raids) {
-        inputs.innerHTML += `
-            <div>${raid}
-            <input type="number" min="0" max="${raids[raid].total}" 
-            value="${raids[raid].kills}" id="input-${raid}">
-            / ${raids[raid].total}</div>
-        `;
-    }
-}
-
-function saveProgress() {
-    for (let raid in raids) {
-        raids[raid].kills = parseInt(document.getElementById(`input-${raid}`).value);
-    }
-    localStorage.setItem("guildProgress", JSON.stringify(raids));
-    renderProgress();
-    alert("Progress uppdaterad! 🔥");
-}
-
-loadProgress();
-renderProgress();
-</script>
 
 </body>
 </html>
