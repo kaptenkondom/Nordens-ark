@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nordens Ark – Horde Casual Guild</title>
+<title>Nordens Ark – Casual Horde Guild</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -90,7 +90,6 @@ h2 {
 }
 
 /* Progress bars */
-
 .progress-item {
   margin-bottom: 25px;
 }
@@ -118,7 +117,6 @@ h2 {
 }
 
 /* Gallery */
-
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -136,31 +134,137 @@ h2 {
 }
 
 /* Recruitment */
+.class-grid { display: none; }
+
+button {
+  background: var(--horde-red);
+  border: none;
+  padding: 10px 18px;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #800000;
+}
+
+footer {
+  text-align: center;
+  padding: 40px;
+  opacity: 0.6;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Nordens Ark</h1>
+  <p>En avslappnad Horde-guild – Vi spelar för att det är roligt!</p>
+</header>
+
+<nav>
+  <a href="#about">Om Oss</a>
+  <a href="#progress">Progress</a>
+  <a href="#gallery">Galleri</a>
+  <a href="#recruitment">Rekrytering</a>
+</nav>
+
+<section id="about">
+<h2>Om Oss</h2>
+<div class="card">
+
+<p>
+Nordens Ark är en casual Horde-guild där vi spelar World of Warcraft för att det är roligt.  
+Vi bryr oss inte om parses eller meta – bara om spelare som gillar gemenskap!
+</p>
+
+<p>
+Hos oss är det okej att:
+<br>– AFK:a för verkliga livet  
+<br>– Skratta åt wipes  
+<br>– Spela i din egen takt
+</p>
+
+<p>
+Vi värdesätter:
+<br>– Bra attityd  
+<br>– Humor  
+<br>– Gemenskap
+</p>
+
+</div>
+</section>
+
+<section id="progress">
+<h2>Raid Progress</h2>
+<div class="card" id="progressContainer">
+
+<div class="progress-item">
+  <div class="progress-title">Karazhan</div>
+  <div class="progress-bar">
+    <div class="progress-fill" style="width:100%;">11/11</div>
+  </div>
+</div>
+
+<div class="progress-item">
+  <div class="progress-title">Gruul's Lair</div>
+  <div class="progress-bar">
+    <div class="progress-fill" style="width:100%;">2/2</div>
+  </div>
+</div>
+
+<div class="progress-item">
+  <div class="progress-title">Serpentshrine Cavern</div>
+  <div class="progress-bar">
+    <div class="progress-fill" style="width:66%;">4/6</div>
+  </div>
+</div>
+
+<div class="progress-item">
+  <div class="progress-title">Tempest Keep</div>
+  <div class="progress-bar">
+    <div class="progress-fill" style="width:25%;">1/4</div>
+  </div>
+</div>
+
+</div>
+</section>
+
+<section id="gallery">
+<h2>Raid Galleri</h2>
+<div class="card">
+<div class="gallery">
+  <img src="screenshots/raid1.jpg" alt="">
+  <img src="screenshots/raid2.jpg" alt="">
+  <img src="screenshots/raid3.jpg" alt="">
+</div>
+</div>
+</section>
 
 <section id="recruitment">
 <h2>Rekrytering</h2>
 <div class="card">
 
 <p>
-Vi är <b>Nordens Ark</b> – en avslappnad Horde-guild som spelar World of Warcraft för att det är roligt.  
-Vi bryr oss inte om parses eller meta, bara om spelare som gillar gemenskap!
-</p>
-
-<p>
-Alla klasser, alla specs och alla nivåer är välkomna. Om du gillar Horde och vill ha kul, kom och spela med oss!
+Vi är <b>Nordens Ark</b> – en avslappnad Horde-guild som spelar WoW för att det är roligt.  
+Alla klasser, alla specs och alla nivåer är välkomna!
 </p>
 
 <p>
 Hos oss är det helt okej att:
-<br>– AFK:a för verkliga livet
-<br>– Skratta åt wipes
+<br>– AFK:a för verkliga livet  
+<br>– Skratta åt wipes  
 <br>– Spela i din egen takt
 </p>
 
 <p>
 Vi värdesätter:
-<br>– Bra attityd
-<br>– Humor
+<br>– Bra attityd  
+<br>– Humor  
 <br>– Gemenskap
 </p>
 
@@ -176,48 +280,9 @@ Inga parses krävs. Bara trevligt folk och bra vibe!
 
 </div>
 </section>
-<section id="gallery">
-<h2>Raid Galleri</h2>
-<div class="card">
-<div class="gallery">
-  <img src="screenshots/raid1.jpg">
-  <img src="screenshots/raid2.jpg">
-  <img src="screenshots/raid3.jpg">
-</div>
-</div>
-</section>
-
-<section id="recruitment">
-<h2>Rekrytering</h2>
-<div class="card">
-
-<p>Vi söker just nu spelare som delar vår inställning:</p>
-
-<div class="class-grid">
-  <div>
-    <img src="https://wow.zamimg.com/images/wow/icons/medium/classicon_shaman.jpg">
-    Resto Shaman
-  </div>
-  <div>
-    <img src="https://wow.zamimg.com/images/wow/icons/medium/classicon_priest.jpg">
-    Holy / Disc Priest
-  </div>
-  <div>
-    <img src="https://wow.zamimg.com/images/wow/icons/medium/classicon_warlock.jpg">
-    Warlock
-  </div>
-</div>
-
-<p style="margin-top:30px;">
-Är du Horde, chill och gillar att spela för att det är kul?  
-Då kommer du passa in hos oss.
-</p>
-
-</div>
-</section>
 
 <footer>
-© 2026 Nordens Ark – För Horden
+© 2026 Nordens Ark – Casual Horde Guild
 </footer>
 
 </body>
